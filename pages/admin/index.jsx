@@ -4,17 +4,35 @@ import React from "react";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { adminSchema } from "@/schema/admin";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const Index = () => {
+  const router = useRouter();
   const onSubmit = async (values, actions) => {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    actions.resetForm();
+   
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/admin`,
+        values
+      );
+      if (res.status === 200) {
+        console.log(res.data);
+        actions.resetForm();
+        toast.success("Admin Login Success!");
+        router.push("/admin/profile")
+      }
+    } catch (err) {
+      toast.error(err.response.data.message);
+      console.log(err);
+    }
   };
 
   const { values, handleSubmit, handleChange, errors, touched, handleBlur } =
     useFormik({
       initialValues: {
-        userName: "",
+        username: "",
         password: "",
       },
       onSubmit,
@@ -24,12 +42,12 @@ const Index = () => {
   const inputs = [
     {
       id: 1,
-      name: "userName",
+      name: "username",
       type: "text",
       placeholder: "Your UserName",
-      values: values.userName,
-      errorMessage: errors.userName,
-      touched: touched.userName,
+      values: values.username,
+      errorMessage: errors.username,
+      touched: touched.username,
     },
     {
       id: 2,
@@ -55,14 +73,39 @@ const Index = () => {
             />
           ))}
           <div className=" flex flex-col w-full gap-y-4 mt-4">
-            <button className="btn-primary">LOGIN</button>
-            <Link href="/"><span className=" text-[14px] cursor-pointer underline">Return Home Page</span></Link>
-
+            <button className="btn-primary" type="submit">
+              LOGIN
+            </button>
+            <Link href="/">
+              <span className=" text-[14px] cursor-pointer underline">
+                Return Home Page
+              </span>
+            </Link>
           </div>
         </form>
       </div>
     </div>
   );
 };
+
+
+export const getServerSideProps=(context)=>{
+   const myCookie=context.req?.cookies || ""
+
+   if(myCookie.token === process.env.ADMIN_TOKEN){
+    return {
+      redirect:{
+        destination:"/admin/profile",
+        permanent:false
+      }
+    }
+   }
+
+   return {
+    props:{}
+   }
+ }
+
+
 
 export default Index;

@@ -22,28 +22,28 @@ const Search = ({ SetIsSearchModal }) => {
               <ul>
                 <li className=" flex items-center justify-between p-2 hover:bg-primary transition-all">
                   <div className="relative flex">
-                    <Image src="/images/f1.png" width={48} height={48} alt="" />
+                    <Image src="/images/f1.png" width={48} height={48} alt="" priority/>
                   </div>
                   <span className=" text-secondary font-bold">Good Pizza</span>
                   <span className=" text-secondary font-bold">$10</span>
                 </li>
                 <li className=" flex items-center justify-between p-2 hover:bg-primary transition-all">
                   <div className="relative flex">
-                    <Image src="/images/f1.png" width={48} height={48} alt="" />
+                    <Image src="/images/f1.png" width={48} height={48} alt="" priority/>
                   </div>
                   <span className=" text-secondary font-bold">Good Pizza</span>
                   <span className=" text-secondary font-bold">$10</span>
                 </li>
                 <li className=" flex items-center justify-between p-2 hover:bg-primary transition-all">
                   <div className="relative flex">
-                    <Image src="/images/f1.png" width={48} height={48} alt="" />
+                    <Image src="/images/f1.png" width={48} height={48} alt="" priority/>
                   </div>
                   <span className=" text-secondary font-bold">Good Pizza</span>
                   <span className=" text-secondary font-bold">$10</span>
                 </li>
                 <li className=" flex items-center justify-between p-2 hover:bg-primary transition-all">
                   <div className="relative flex">
-                    <Image src="/images/f1.png" width={48} height={48} alt="" />
+                    <Image src="/images/f1.png" width={48} height={48} alt="" priority/>
                   </div>
                   <span className=" text-secondary font-bold">Good Pizza</span>
                   <span className=" text-secondary font-bold">$10</span>

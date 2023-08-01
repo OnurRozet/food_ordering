@@ -4,13 +4,31 @@ import React from "react";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { registerSchema } from "@/schema/register";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 
 const Register = () => {
+
+  const router =useRouter();
+
   const onSubmit = async (values, actions) => {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    actions.resetForm();
+    try {
+      const res= await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/register`,values)
+      if(res.status===200){
+        router.push("/auth/login")
+        toast.success("User created succesfully")
+        
+      }
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
   };
+
+
 
   const { values, handleSubmit, handleChange, errors, touched, handleBlur } =
     useFormik({
@@ -67,7 +85,7 @@ const Register = () => {
     <div className=" container mx-auto text-secondary">
       <div className=" flex flex-col items-center my-20 md:w-1/2 w-full mx-auto ">
         <Title addClass="text-[40px] font-dancing mb-6">Register</Title>
-        <form onSubmit={onSubmit} className=" flex flex-col gap-y-2 w-full">
+        <form onSubmit={handleSubmit} className=" flex flex-col gap-y-2 w-full">
           {inputs.map((input) => (
             <Input
               key={input.id}
@@ -77,7 +95,7 @@ const Register = () => {
             />
           ))}
           <div className=" flex flex-col w-full gap-y-4 mt-4">
-            <button className="btn-primary">REGISTER</button>
+            <button className="btn-primary" type="submit">REGISTER</button>
           <Link href="/auth/login"><span className="text-[14px] cursor-pointer underline">Do you have account?</span></Link>
           </div>
         </form>

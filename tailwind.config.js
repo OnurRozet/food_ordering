@@ -34,6 +34,7 @@ module.exports = {
       danger: "#ff0000",
       gray:"#808080",
       success: "#00ff00",
+      orange:"#FFA500"
     },
     fontFamily: {
       dancing: ["Dancing Script", "cursive"],

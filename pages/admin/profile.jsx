@@ -1,14 +1,35 @@
 import Image from "next/image";
 import { useState } from "react";
 import Products from "@/components/admin/Products";
-import Orders from "@/components/profile/Orders";
 import Order from "@/components/admin/Order";
 import Category from "@/components/admin/Category";
 import Footer from "@/components/admin/Footer";
+import { useRouter } from "next/router";
+import axios from "axios";
+import AddProduct from "@/components/admin/AddProduct";
 
 
 const Profile = () => {
   const [tabs, setTabs] = useState(0);
+  const [isProductModal, SetIsProductModal] = useState(false);
+
+  const router=useRouter();
+
+  const closeAdminAccount=async()=>{
+    try {
+      if (confirm('Are you sure you want to close Admin Account ?')){
+        const res=await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin`)
+        if(res.status===200){
+          router.push("/admin")
+          toast.success("Admin Account Closed!")
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
 
   return (
     <div className="flex px-10 min-h-[calc(100vh_-_433px)] text-secondary lg:flex-row flex-col">
@@ -62,7 +83,7 @@ const Profile = () => {
             <button className="ml-1">Footer</button>
           </li>
           <li
-            onClick={() => setTabs(4)}
+            onClick={closeAdminAccount}
             className={`border border-gray w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${
                 tabs === 4 && "bg-primary text-white"
               }`}
@@ -77,8 +98,29 @@ const Profile = () => {
       {tabs === 1 && <Order/>}
       {tabs === 2 && <Category />}
       {tabs === 3 && <Footer />}
+      {isProductModal && <AddProduct SetIsProductModal={SetIsProductModal}/>}
+      <button onClick={()=>SetIsProductModal(true)} className=" btn-primary absolute bottom-14 right-10 !w-12 !h-12 text-4xl !p-0">+</button>
     </div>
   );
 };
+
+export const getServerSideProps=(context)=>{
+  const myCookie=context.req?.cookies || ""
+
+  if(myCookie.token !== process.env.ADMIN_TOKEN){
+   return {
+     redirect:{
+       destination:"/admin",
+       permanent:false
+     }
+   }
+  }
+
+  
+
+  return {
+   props:{}
+  }
+}
 
 export default Profile;

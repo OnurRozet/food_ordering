@@ -1,5 +1,7 @@
 import Title from "@/components/ui/Title";
 import { reset } from "@/redux/cartSlice";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -29,13 +31,13 @@ const Cart = () => {
               cart.products.map((item)=>(
                 <tr className=" border-b bg-secondary border-gray " key={item.id}>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer flex items-center gap-x-1 justify-center">
-                  <Image alt="" src="/images/f1.png" width={50} height={50} />
+                  <Image alt="" src="/images/f1.png" width={50} height={50} priority/>
                   <span>{item.name}</span>
                 </td >
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
                   {
                     item.extras.map((extra)=>(
-                      <span key={extra.id}>{extra.name + ","}</span>
+                      <span key={extra.id}>{extra.text},</span>
                     ))
                   }
                 </td >

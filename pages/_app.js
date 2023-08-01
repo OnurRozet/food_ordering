@@ -1,11 +1,12 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { ToastContainer } from 'react-toastify';
 import "@/styles/globals.css";
 import Layout from "@/layout/Layout";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { SessionProvider } from "next-auth/react";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({
   Component,
@@ -16,6 +17,7 @@ export default function App({
       <Provider store={store}>
         <Layout>
           <Component {...pageProps} />
+          <ToastContainer />
         </Layout>
       </Provider>
     </SessionProvider>

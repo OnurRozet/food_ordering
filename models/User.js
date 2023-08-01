@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { MdEmail } from "react-icons/md";
+
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    fullName: {
       type: String,
       required: true,
     },
@@ -13,11 +13,11 @@ const userSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: true,
+     
     },
     address: {
       type: String,
-      required: true,
+      
     },
     password: {
       type: String,
@@ -29,7 +29,10 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      required: true,
+      
+    },
+    job: {
+      type: String,
     },
     emailVerified: {
       type: String,

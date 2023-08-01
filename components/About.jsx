@@ -8,7 +8,7 @@ function About() {
        <div className=' container mx-auto flex items-center text-white gap-20 justify-center flex-wrap-reverse'>
             <div className=' flex justify-center'>
             <div className='relative sm:w-[445px] sm:h-[600px] flex justify-center w-[300px] h-[450px]'>
-                <Image src="/images/About-img.png" alt='' layout='fill'/>
+                <Image src="/images/About-img.png" alt='' layout='fill' priority/>
             </div>
             </div>
             <div className='md:w-1/2'>
