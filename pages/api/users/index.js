@@ -10,7 +10,7 @@ const handler=async(req,res)=>{
 
     if(method==="GET"){
         try {
-            const users=User.find();
+            const users=await User.find();
             res.status(200).json(users)
         } catch (error) {
             console.log(error);

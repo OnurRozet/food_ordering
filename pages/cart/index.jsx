@@ -3,14 +3,51 @@ import { reset } from "@/redux/cartSlice";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import { useSelector,useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-const Cart = () => {
+
+const Cart = ({userList}) => {
 
 
   const cart=useSelector((state)=>state.cart)
   const dispatch=useDispatch()
+  const router = useRouter();
+
+  const {data:session} = useSession()
+  console.log(session);
+
+  const user=userList?.find((user)=>user.email === session?.user.email)
+
+  console.log(user);
+   
+  if(!user){
+    console.log("User not Found");
+  }
+
+  const newOrder={
+    customer:user?.fullName,
+    address:user?.address ? user?.address : "No Address",
+    total:cart.total,
+    method:0
+  }
+
+  const createOrder=async()=>{
+      if(session){
+        if(confirm("Are you sure to Create Order")){
+          const res= await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`,newOrder)
+          if(res.status===200){
+            router.push(`/order/${res.data._id}`)
+            dispatch(reset())
+            toast.success("Order Created Succesfully", {autoClose:1000})
+          }
+        }
+      }
+
+  }
+
 
 
   return (
@@ -58,12 +95,25 @@ const Cart = () => {
           </div>
 
           <div>
-          <button className="btn-primary mt-3 md:w-auto w-52 " onClick={()=>dispatch(reset())}> CHECKOUT NOW</button>
+          <button className="btn-primary mt-3 md:w-auto w-52 " onClick={createOrder}> CHECKOUT NOW</button>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export const getServerSideProps = async () => {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+  
+
+  return {
+    props: {
+      userList: res.data ? res.data : [],
+     
+    },
+  };
+};
+
 
 export default Cart;

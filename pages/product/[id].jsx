@@ -73,7 +73,7 @@ const index = ({ productData }) => {
                 className=" relative w-8 h-8 cursor-pointer"
                 onClick={() => handleSize(0)}
               >
-                <Image src="/images/size.png" layout="fill" alt="" />
+                <Image src="/images/size.png" layout="fill" alt="" priority/>
                 <span className="absolute top-0 -right-6 text-xs bg-primary rounded-full px-[5px] font-medium">
                   small
                 </span>
@@ -82,7 +82,7 @@ const index = ({ productData }) => {
                 className=" relative w-12 h-12 cursor-pointer"
                 onClick={() => handleSize(1)}
               >
-                <Image src="/images/size.png" layout="fill" alt="" />
+                <Image src="/images/size.png" layout="fill" alt=""  priority/>
                 <span className="absolute top-0 -right-8 text-xs bg-primary rounded-full px-[5px] font-medium">
                   Medium
                 </span>
@@ -91,7 +91,7 @@ const index = ({ productData }) => {
                 className=" relative w-16 h-16 cursor-pointer"
                 onClick={() => handleSize(2)}
               >
-                <Image src="/images/size.png" layout="fill" alt="" />
+                <Image src="/images/size.png" layout="fill" alt="" priority />
                 <span className="absolute top-0 -right-6 text-xs bg-primary rounded-full px-[5px] font-medium">
                   Large
                 </span>
@@ -101,7 +101,7 @@ const index = ({ productData }) => {
         </div>
         <div className=" flex md:justify-start justify-center gap-x-4 my-6">
           {extraItems.map((items) => (
-            <label className="flex items-center gap-x-1" key={items.id}>
+            <label className="flex items-center gap-x-1" key={items._id}>
               <input
                 type="checkbox"
                 className="w-5 h-5 accent-primary"

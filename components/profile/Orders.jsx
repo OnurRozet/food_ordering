@@ -1,10 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../ui/Title";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const [currentUser,setCurrentUser] = useState();
+  const status = ["preparing", " on the way", "delivered"];
+
+  console.log(orders);
+
+ const {data:session}=useSession();
+
+  useEffect(() => {
+    const getOrders = async () => {
+      await axios
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/orders`)
+        .then((res) => {
+          setOrders(res?.data.filter((res)=>res.customer === currentUser.fullName));
+        })
+        .catch((err) => console.log(err));
+    };
+    getOrders();
+  }, [currentUser]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      await axios
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/users`)
+        .then((res) => {
+          setCurrentUser(res?.data.filter((user)=>user.email === session.user.email)[0]);
+        })
+        .catch((err) => console.log(err));
+    };
+    getUsers();
+  }, [session]);
+
+  
   return (
     <div className="lg:p-8 flex-1 lg:mt-0 mt-5">
-      <Title addClass="text-[40px]">Password</Title>
+      <Title addClass="text-[40px]">Orders</Title>
       <div className="md:min-h-[calc(100vh_-_433px)] flex items-center flex-1 p-10 overflow-x-auto w-full">
           <table className=" w-full text-sm text-center text-gray uppercase min-w-[1000px] ">
             <thead className=" text-sm text-secondary bg-gray">
@@ -17,22 +52,52 @@ const Orders = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className=" border-b bg-secondary border-gray ">
+              {
+                orders.map((order)=>(
+                   <tr key={order._id} className=" border-b bg-secondary border-gray ">
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer flex items-center gap-x-1 justify-center">
-                  <span>6341578</span>
+                  <span>{order._id.substring(0,6)}...</span>
                 </td >
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
-                  <span>Bostancı</span>
+                  <span>{order.address}</span>
                 </td >
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">12/07/2023 14:00</td>
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">$20</td>
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">Preparing</td>
+                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">{order?.createdAt}</td>
+                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">$ {order.total}</td>
+                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">{status[order.status]}</td>
               </tr>
+                ))
+              }
+             
             </tbody>
           </table>
         </div>
     </div>
   );
 };
+
+export const getServerSideProps=async(context)=>{
+ 
+  const {query:id} = context;
+  let orders;
+  await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders`)
+  .then((res)=>{
+    orders=res.data
+  }).catch((err)=>console.log("Data not found" ,err))
+
+  if(orders){
+    return {
+      props:{
+        orders
+      }
+    }
+  }else{
+    return {
+      redirect:{
+        destination:`/profil/${id}`,
+      }
+    }
+  }
+
+}
 
 export default Orders;

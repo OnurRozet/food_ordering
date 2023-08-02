@@ -15,11 +15,11 @@ body {
     color: white;
 }
 .btn-primary{
-  @apply text-center px-[30px] py-2 bg-primary cursor-pointer rounded-3xl hover:opacity-70 transition-all
+  @apply text-center px-[30px] py-2 bg-primary cursor-pointer rounded-3xl hover:opacity-70 transition-all disabled:cursor-not-allowed disabled:opacity-50
 }
 
 .btn-success{
-  @apply text-center px-[30px] py-2 bg-success cursor-pointer rounded-3xl hover:opacity-70 transition-all
+  @apply text-center px-[30px] py-2 bg-success cursor-pointer rounded-3xl hover:opacity-70 transition-all 
 }
 
 .btn-secondary{

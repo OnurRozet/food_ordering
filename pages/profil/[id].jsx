@@ -73,7 +73,7 @@ const Profile = ({user}) => {
 
       {tabs === 0 && <Account user={user}/>}
       {tabs === 1 && <Password user={user}/>}
-      {tabs === 2 && <Orders />}
+      {tabs === 2 && <Orders user={user} />}
     </div>
   );
 };

@@ -1,7 +1,15 @@
+import axios from "axios";
 import Image from "next/image";
 import React from "react";
 
-const Order = () => {
+const Order = ({ order }) => {
+  const status = order?.status;
+  const statusClass = (index) => {
+    if (index - status < 1) return "";
+    if (index - status === 1) return "animate-pulse";
+    if (index - status > 1) return "";
+  };
+
   return (
     <div className="overflow-x-auto">
       <div className="min-h-[calc(100vh_-_433px)] flex justify-center items-center flex-col p-10 min-w-[1000px] ">
@@ -27,23 +35,23 @@ const Order = () => {
               <tbody>
                 <tr className=" border-b bg-secondary border-gray ">
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer flex items-center gap-x-1 justify-center">
-                    <span>45687136</span>
+                    <span>{order?._id.substring(0, 6)}...</span>
                   </td>
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
-                    <span>Onur Rozet</span>
+                    <span>{order?.customer}</span>
                   </td>
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
-                    İstanbul
+                    {order?.address}
                   </td>
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
-                    $18
+                    $ {order?.total}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div className="flex justify-between w-full p-10 bg-primary text-secondary">
-            <div className="relative flex flex-col">
+            <div className={`relative flex flex-col ${statusClass(0)}`}>
               <Image
                 alt=""
                 src="/images/paid.png"
@@ -53,15 +61,15 @@ const Order = () => {
               />
               <span>Payment</span>
             </div>
-            <div>
+            <div className={`relative flex flex-col ${statusClass(1)}`}>
               <Image alt="" src="/images/bake.png" width={40} height={40} />
               <span>Preparing</span>
             </div>
-            <div>
+            <div className={`relative flex flex-col ${statusClass(2)}`}>
               <Image alt="" src="/images/bike.png" width={40} height={40} />
               <span>On the way</span>
             </div>
-            <div>
+            <div className={`relative flex flex-col ${statusClass(3)}`}>
               <Image
                 alt=""
                 src="/images/delivered.png"
@@ -75,6 +83,18 @@ const Order = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ params }) => {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders/${params.id}`
+  );
+
+  return {
+    props: {
+      order: res.data ? res.data : null,
+    },
+  };
 };
 
 export default Order;
