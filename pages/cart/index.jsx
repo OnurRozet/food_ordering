@@ -5,50 +5,49 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-
-const Cart = ({userList}) => {
-
-
-  const cart=useSelector((state)=>state.cart)
-  const dispatch=useDispatch()
+const Cart = ({ userList }) => {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const router = useRouter();
 
-  const {data:session} = useSession()
+  const { data: session } = useSession();
   console.log(session);
 
-  const user=userList?.find((user)=>user.email === session?.user.email)
+  const user = userList?.find((user) => user.email === session?.user.email);
 
   console.log(user);
-   
-  if(!user){
-    console.log("User not Found");
-  }
 
-  const newOrder={
-    customer:user?.fullName,
-    address:user?.address ? user?.address : "No Address",
-    total:cart.total,
-    method:0
-  }
 
-  const createOrder=async()=>{
-      if(session){
-        if(confirm("Are you sure to Create Order")){
-          const res= await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orders`,newOrder)
-          if(res.status===200){
-            router.push(`/order/${res.data._id}`)
-            dispatch(reset())
-            toast.success("Order Created Succesfully", {autoClose:1000})
-          }
+
+  const newOrder = {
+    customer: user?.fullName,
+    address: user?.address ? user?.address : "No Address",
+    total: cart.total,
+    method: 0,
+  };
+
+  const createOrder = async () => {
+    if (session) {
+      if (confirm("Are you sure to Create Order")) {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/orders`,
+          newOrder
+        );
+        if (res.status === 200) {
+          router.push(`/order/${res.data._id}`);
+          dispatch(reset());
+          toast.success("Order Created Succesfully", { autoClose: 1000 });
         }
       }
-
-  }
-
-
+    }
+    else {
+      toast.warning("Firstly , You must be Login");
+      router.push("/auth/login");
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh_-_433px)]">
@@ -57,32 +56,49 @@ const Cart = ({userList}) => {
           <table className=" w-full text-sm text-center text-gray uppercase min-w-[1000px] ">
             <thead className=" text-sm text-secondary bg-gray">
               <tr>
-                <th scope="col" className=" py-3 px-6">Product</th>
-                <th scope="col" className=" py-3 px-6">EXTRAS</th>
-                <th scope="col" className=" py-3 px-6">PRICE</th>
-                <th scope="col" className=" py-3 px-6">QUANTITY</th>
+                <th scope="col" className=" py-3 px-6">
+                  Product
+                </th>
+                <th scope="col" className=" py-3 px-6">
+                  EXTRAS
+                </th>
+                <th scope="col" className=" py-3 px-6">
+                  PRICE
+                </th>
+                <th scope="col" className=" py-3 px-6">
+                  QUANTITY
+                </th>
               </tr>
             </thead>
             <tbody>
-            {
-              cart.products.map((item)=>(
-                <tr className=" border-b bg-secondary border-gray " key={item.id}>
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer flex items-center gap-x-1 justify-center">
-                  <Image alt="" src="/images/f1.png" width={50} height={50} priority/>
-                  <span>{item.name}</span>
-                </td >
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
-                  {
-                    item.extras.map((extra)=>(
+              {cart.products.map((item) => (
+                <tr
+                  className=" border-b bg-secondary border-gray "
+                  key={item.id}
+                >
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer flex items-center gap-x-1 justify-center">
+                    <Image
+                      alt=""
+                      src="/images/f1.png"
+                      width={50}
+                      height={50}
+                      priority
+                    />
+                    <span>{item.name}</span>
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
+                    {item.extras.map((extra) => (
                       <span key={extra.id}>{extra.text},</span>
-                    ))
-                  }
-                </td >
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">${item.price}</td>
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">{item.quantity}</td>
-              </tr>
-              ))
-            }
+                    ))}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
+                    ${item.price}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
+                    {item.quantity}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -95,7 +111,13 @@ const Cart = ({userList}) => {
           </div>
 
           <div>
-          <button className="btn-primary mt-3 md:w-auto w-52 " onClick={createOrder}> CHECKOUT NOW</button>
+            <button
+              className="btn-primary mt-3 md:w-auto w-52 "
+              onClick={createOrder}
+            >
+              {" "}
+              CHECKOUT NOW
+            </button>
           </div>
         </div>
       </div>
@@ -105,15 +127,12 @@ const Cart = ({userList}) => {
 
 export const getServerSideProps = async () => {
   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
-  
 
   return {
     props: {
       userList: res.data ? res.data : [],
-     
     },
   };
 };
-
 
 export default Cart;

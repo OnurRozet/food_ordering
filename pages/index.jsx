@@ -4,6 +4,7 @@ import axios from "axios";
 
 
 const Index = ({categoryList,productList}) => {
+  
 
   return (
     <div>

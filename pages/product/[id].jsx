@@ -61,13 +61,13 @@ const index = ({ productData }) => {
       </div>
       <div className="md:flex-1 md:text-start text-center ">
         <Title addClass="text-6xl  font-dancing">{productData.title}</Title>
-        <span className=" text-primary text-2xl font-bold underline underline-offset-1 inline-block  ">
+        <span className=" text-primary text-2xl font-bold underline underline-offset-1 inline-block mt-2  ">
           ${price}
         </span>
         <p className=" text-sm my-4 md:pr-24">{productData.description}</p>
         <div>
           <h4 className=" text-xl font-bold">Choose the size</h4>
-          {productData.category === "pizza" && (
+          {productData.category.toLowerCase() === "pizza" && (
             <div className="flex items-center gap-x-20 md:justify-start justify-center">
               <div
                 className=" relative w-8 h-8 cursor-pointer"

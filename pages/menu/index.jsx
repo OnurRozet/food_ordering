@@ -3,26 +3,26 @@ import axios from 'axios'
 import React from 'react'
 
 
-const index = ({categoryList}) => {
+const index = ({categoryList,productList}) => {
 
   return (
     <div className='pb-10'>
-      <MenuWrapper categoryList={categoryList} />
+      <MenuWrapper categoryList={categoryList} productList={productList} />
     </div>
   )
 }
 
-// export const  getServerSideProps=async ()=>{
-//   const category= await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
-//   const product= await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`)
+export const  getServerSideProps=async ()=>{
+  const category= await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
+  const product= await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`)
 
-//   return {
-//     props:{
-//       categoryList:category.data ? category.data:[],
-//       productList:product.data ? product.data:[]
+  return {
+    props:{
+      categoryList:category.data ? category.data:[],
+      productList:product.data ? product.data:[]
      
-//     }
-//   }
-// }
+    }
+  }
+}
 
 export default index

@@ -19,7 +19,7 @@ function Footer() {
     getFooter();
   }, []);
 
-  console.log(footer);
+  
 
   return (
     <div className="bg-secondary text-white">
@@ -47,12 +47,12 @@ function Footer() {
           <div className="md:flex-1">
             <Title addClass="text-[38px] font-dancing">Feane</Title>
             <p className="mt-3">{footer?.desc}</p>
-            <div className="flex items-center justify-center mt-5 gap-x-2">
+            <div className="flex items-center justify-center mt-5 gap-x-2 ">
               {footer?.socialMedia?.map((item) => (
                 <a
                   href={item?.link}
                   key={item?._id}
-                  className="w-8 h-8 grid place-content-center bg-white text-secondary rounded-full "
+                  className="w-8 h-8 grid place-content-center bg-white text-secondary rounded-full hover:cursor-pointer hover:bg-primary transition-all "
                   target="_blank"
                 >
                   <i className={item?.icon}></i>

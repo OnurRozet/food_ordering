@@ -10,8 +10,6 @@ import { fetchData } from "next-auth/client/_utils";
 
 
 const Index = ({categoryList,productList}) => {
-  console.log(categoryList);
-  console.log(productList);
 
   
   

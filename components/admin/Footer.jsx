@@ -151,7 +151,7 @@ const Footer = () => {
           />
         ))}
       </div>
-      <div className="mt-4 flex justify-between md:items-center md:flex-row flex-col gap-4">
+      <div className="mt-4 flex justify-between md:items-center md:flex-row flex-col gap-4 hover:cursor-pointer hover:text-primary transition-all">
         <div className="flex gap-4 items-center">
           <Input
             placeholder="Link Address"
@@ -184,10 +184,12 @@ const Footer = () => {
           ))}
         </ul>
       </div>
-
-      <button className="btn-primary mt-4" type="submit">
+      <div className=" flex justify-start mt-4 mb-4">
+         <button className="btn-primary  " type="submit">
         Update
       </button>
+      </div>
+     
     </form>
   );
 };
