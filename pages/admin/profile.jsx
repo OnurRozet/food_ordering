@@ -99,7 +99,7 @@ const Profile = () => {
       {tabs === 2 && <Category />}
       {tabs === 3 && <Footer />}
       {isProductModal && <AddProduct SetIsProductModal={SetIsProductModal}/>}
-      <button onClick={()=>SetIsProductModal(true)} className=" btn-primary absolute bottom-14 right-10 !w-12 !h-12 text-4xl !p-0">+</button>
+      <button onClick={()=>SetIsProductModal(true)} className=" btn-primary fixed  bottom-14 right-10 !w-12 !h-12 text-4xl !p-0" >+</button>
     </div>
   );
 };

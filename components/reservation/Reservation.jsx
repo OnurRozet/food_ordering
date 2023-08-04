@@ -1,28 +1,49 @@
 import React from "react";
-import Title from "./ui/Title";
-import Input from "./Input";
+import Title from "../ui/Title";
+import Input from "../Input";
 import { useFormik } from "formik";
 import { reservationSchema } from "@/schema/reservation";
-
-
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Reservation() {
   const onSubmit = async (values, actions) => {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    actions.resetForm();
+    const newReservation = {
+      fullName: values?.fullName || "",
+      phoneNumber: values?.phoneNumber || "",
+      email: values?.email || "",
+      person: values?.persons || "",
+      time: {
+        date:new Date(values?.date).toLocaleDateString(),
+        hour:new Date(values?.date).toLocaleTimeString()
+      }
+    };
+
+    let reservation;
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/reservation`, newReservation)
+      .then((res) => {
+        if (res.status === 201) {
+          reservation = res.data ? res.data : [];
+          toast.success("Reservation is created succesfully");
+          console.log(reservation);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
-  const { values, handleSubmit, handleChange,errors,touched,handleBlur } = useFormik({
-    initialValues: {
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      persons: "",
-      date: "",
-    },
-    onSubmit,
-    validationSchema:reservationSchema
-  });
+  const { values, handleSubmit, handleChange, errors, touched, handleBlur } =
+    useFormik({
+      initialValues: {
+        fullName: "",
+        phoneNumber: "",
+        email: "",
+        persons: "",
+        date: "",
+      },
+      onSubmit,
+      validationSchema: reservationSchema,
+    });
 
   const inputs = [
     {
@@ -31,8 +52,8 @@ function Reservation() {
       type: "text",
       placeholder: "Your Full Name",
       values: values.fullName,
-      errorMessage:errors.fullName,
-      touched:touched.fullName
+      errorMessage: errors.fullName,
+      touched: touched.fullName,
     },
     {
       id: 2,
@@ -40,8 +61,8 @@ function Reservation() {
       type: "number",
       placeholder: "Your Phone Number",
       values: values.phoneNumber,
-      errorMessage:errors.phoneNumber,
-      touched:touched.phoneNumber
+      errorMessage: errors.phoneNumber,
+      touched: touched.phoneNumber,
     },
     {
       id: 3,
@@ -49,8 +70,8 @@ function Reservation() {
       type: "email",
       placeholder: "Your Email Address",
       values: values.email,
-      errorMessage:errors.email,
-      touched:touched.email
+      errorMessage: errors.email,
+      touched: touched.email,
     },
     {
       id: 4,
@@ -58,17 +79,17 @@ function Reservation() {
       type: "number",
       placeholder: "How Many Persons?",
       values: values.persons,
-      errorMessage:errors.persons,
-      touched:touched.persons
+      errorMessage: errors.persons,
+      touched: touched.persons,
     },
     {
       id: 5,
       name: "date",
       type: "datetime-local",
-      placeholder: "How Many Persons?",
+      placeholder: "Select Date and Time",
       values: values.date,
-      errorMessage:errors.date,
-      touched:touched.date
+      errorMessage: errors.date,
+      touched: touched.date,
     },
   ];
 
@@ -81,7 +102,12 @@ function Reservation() {
         <form onSubmit={handleSubmit} className=" lg:flex-1 w-full ">
           <div className="flex flex-col gap-y-3">
             {inputs.map((item) => (
-              <Input key={item.id} {...item} onChange={handleChange} onBlur={handleBlur} />
+              <Input
+                key={item.id}
+                {...item}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             ))}
           </div>
           <button type="submit" className=" btn-primary mt-4">

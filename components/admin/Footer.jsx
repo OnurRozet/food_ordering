@@ -12,7 +12,7 @@ const Footer = () => {
   const [footerData, setFooterData] = useState([]);
   const [socialMediaLinks, setSocialMediaLinks] = useState([]);
 
- 
+ console.log(footerData);
 
   useEffect(() => {
     const getFooterData = async () => {
@@ -74,7 +74,7 @@ const Footer = () => {
         name: "location",
         type: "text",
         placeholder: "Your Location",
-        value: values.location,
+        value: footerData?.location,
         errorMessage: errors.location,
         touched: touched.location,
       },
@@ -83,7 +83,7 @@ const Footer = () => {
         name: "email",
         type: "text",
         placeholder: "Your Email",
-        value: values.email,
+        value: footerData?.email,
         errorMessage: errors.email,
         touched: touched.email,
       },
@@ -92,7 +92,7 @@ const Footer = () => {
         name: "phoneNumber",
         type: "number",
         placeholder: "Your Phone Number",
-        value: values.phoneNumber,
+        value: footerData?.phoneNumber,
         errorMessage: errors.phoneNumber,
         touched: touched.phoneNumber,
       },
@@ -101,7 +101,7 @@ const Footer = () => {
         name: "desc",
         type: "text",
         placeholder: "Your Description",
-        value: values.desc,
+        value: footerData?.desc,
         errorMessage: errors.desc,
         touched: touched.desc,
       },
@@ -110,7 +110,7 @@ const Footer = () => {
         name: "day",
         type: "text",
         placeholder: "Update Day",
-        value: values.day,
+        value: footerData?.openingHours.day,
         errorMessage: errors.day,
         touched: touched.day,
       },
@@ -119,7 +119,7 @@ const Footer = () => {
         name: "time",
         type: "text",
         placeholder: "Update Time",
-        value: values.time,
+        value:footerData?.openingHours.hour,
         errorMessage: errors.time,
         touched: touched.time,
       },
@@ -148,10 +148,11 @@ const Footer = () => {
             {...input}
             onBlur={handleBlur}
             onChange={handleChange}
+            
           />
         ))}
       </div>
-      <div className="mt-4 flex justify-between md:items-center md:flex-row flex-col gap-4 hover:cursor-pointer hover:text-primary transition-all">
+      <div className="mt-4 flex justify-between md:items-center md:flex-row flex-col gap-4 hover:cursor-pointer  transition-all">
         <div className="flex gap-4 items-center">
           <Input
             placeholder="Link Address"

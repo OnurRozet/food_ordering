@@ -6,14 +6,17 @@ import Orders from "@/components/profile/Orders";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Reservation from "@/components/reservation/Reservation";
+import Reservations from "@/components/profile/Reservations";
 
 const Profile = ({user}) => {
   const [tabs, setTabs] = useState(0);
   const router = useRouter();
+  const [isReservationModal ,setIsReservationModal]=useState(false)
 
 
   const handleSignOut = () => {
-    if (confirm("Are you sure you want to sign")) {
+    if (confirm("Are you sure you want to sign out")) {
       signOut({ redirect: false });
       router.push("/auth/login");
     }
@@ -62,6 +65,15 @@ const Profile = ({user}) => {
             <button className="ml-1">Orders</button>
           </li>
           <li
+            onClick={() => setTabs(3)}
+            className={`border border-gray w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${
+              tabs === 2 && "bg-primary text-white"
+            }`}
+          >
+            <i className="fa fa-motorcycle"></i>
+            <button className="ml-1">Reservations</button>
+          </li>
+          <li
             onClick={handleSignOut}
             className={`border border-gray w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all `}
           >
@@ -74,6 +86,7 @@ const Profile = ({user}) => {
       {tabs === 0 && <Account user={user}/>}
       {tabs === 1 && <Password user={user}/>}
       {tabs === 2 && <Orders user={user} />}
+      {tabs === 3 && <Reservations reservationModal={isReservationModal} user={user}  />}
     </div>
   );
 };

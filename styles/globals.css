@@ -22,6 +22,10 @@ body {
   @apply text-center px-[30px] py-2 bg-success cursor-pointer rounded-3xl hover:opacity-70 transition-all 
 }
 
+.btn-danger{
+  @apply text-center px-[30px] py-2 bg-danger cursor-pointer rounded-3xl hover:opacity-70 transition-all 
+}
+
 .btn-secondary{
   @apply text-center px-[30px] py-2 bg-secondary cursor-pointer rounded-3xl hover:opacity-70 transition-all
 }

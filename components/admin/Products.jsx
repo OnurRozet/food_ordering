@@ -3,9 +3,11 @@ import Image from "next/image";
 import Title from "../ui/Title";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const router=useRouter()
 
   const getProduct = async () => {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
@@ -58,7 +60,8 @@ const Products = () => {
             {products.map((pro) => (
               <tr
                 key={pro._id}
-                className="transition-all bg-secondary border-gray-700 hover:bg-primary text-white "
+                className="transition-all bg-secondary border-gray-700 hover:bg-primary text-white hover:cursor-pointer "
+                onClick={()=>router.push(`/product/${pro?._id}`)}
               >
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center">
                   <Image

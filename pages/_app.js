@@ -25,7 +25,7 @@ export default function App({
         <Layout>
           <div className=" pt-[88px]">
             <Component {...pageProps} />
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
           </div>
         </Layout>
       </Provider>

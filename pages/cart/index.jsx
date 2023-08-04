@@ -1,5 +1,5 @@
 import Title from "@/components/ui/Title";
-import { reset } from "@/redux/cartSlice";
+import { decrease, deleteProduct, increase, reset } from "@/redux/cartSlice";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -19,7 +19,6 @@ const Cart = ({ userList }) => {
   const user = userList?.find((user) => user.email === session?.user.email);
 
   console.log(user);
-
 
 
   const newOrder = {
@@ -42,10 +41,11 @@ const Cart = ({ userList }) => {
           toast.success("Order Created Succesfully", { autoClose: 1000 });
         }
       }
-    }
-    else {
-      toast.warning("Firstly , You must be Login");
-      router.push("/auth/login");
+    } else {
+      if (cart.products.length > 0) {
+        toast.warning("Firstly , You must be Login");
+        router.push("/auth/login");
+      }
     }
   };
 
@@ -67,6 +67,9 @@ const Cart = ({ userList }) => {
                 </th>
                 <th scope="col" className=" py-3 px-6">
                   QUANTITY
+                </th>
+                <th scope="col" className=" py-3 px-6">
+                  Action
                 </th>
               </tr>
             </thead>
@@ -95,7 +98,17 @@ const Cart = ({ userList }) => {
                     ${item.price}
                   </td>
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white hover:cursor-pointer">
+                    <button className=" text-white mr-2 text-2xl" onClick={()=>dispatch(decrease(item._id))} >-</button>
                     {item.quantity}
+                    <button className="text-white ml-2 text-xl" onClick={()=>dispatch(increase(item._id))}>+</button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn-danger text-white"
+                      onClick={() => dispatch(deleteProduct(item._id))}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

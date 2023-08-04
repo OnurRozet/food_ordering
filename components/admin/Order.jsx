@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import Title from "../ui/Title";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
   const status = ["preparing", " on the way", "delivered"];
+  const router=useRouter()
 
   console.log(orders);
 
@@ -79,6 +81,7 @@ const Order = () => {
                   <tr
                     key={order._id}
                     className="transition-all bg-secondary border-gray-700  text-white "
+                    
                   >
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white gap-x-1 ">
                       {order._id.substring(0, 6)}...
