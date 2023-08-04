@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Title from "../ui/Title";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct } from "@/redux/cartSlice";
 import { toast } from "react-toastify";
 import UpdateReservation from "../reservation/updateReservation";
 
@@ -21,7 +19,7 @@ export default function Reservations({user}) {
   };
   useEffect(() => {
     getReservationData();
-  }, [reservations]);
+  }, [reservation,reservations]);
 
   const deleteReservation = async(id) => {
 
