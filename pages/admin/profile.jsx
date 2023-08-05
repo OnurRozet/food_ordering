@@ -7,6 +7,8 @@ import Footer from "@/components/admin/Footer";
 import { useRouter } from "next/router";
 import axios from "axios";
 import AddProduct from "@/components/admin/AddProduct";
+import Reservations from "@/components/profile/Reservations";
+import Reservation from "@/components/admin/Reservation";
 
 
 const Profile = () => {
@@ -74,6 +76,15 @@ const Profile = () => {
             <button className="ml-1">Categories</button>
           </li>
           <li
+            onClick={() => setTabs(4)}
+            className={`border border-gray w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${
+                tabs === 4 && "bg-primary text-white"
+              }`}
+          >
+            <i className="fa fa-motorcycle"></i>
+            <button className="ml-1">Reservation</button>
+          </li>
+          <li
             onClick={() => setTabs(3)}
             className={`border border-gray w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${
                 tabs === 3 && "bg-primary text-white"
@@ -85,7 +96,7 @@ const Profile = () => {
           <li
             onClick={closeAdminAccount}
             className={`border border-gray w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${
-                tabs === 4 && "bg-primary text-white"
+                tabs === 5 && "bg-primary text-white"
               }`}
           >
             <i className="fa fa-sign-out"></i>
@@ -98,6 +109,7 @@ const Profile = () => {
       {tabs === 1 && <Order/>}
       {tabs === 2 && <Category />}
       {tabs === 3 && <Footer />}
+      {tabs === 4 && <Reservation/>}
       {isProductModal && <AddProduct SetIsProductModal={SetIsProductModal}/>}
       <button onClick={()=>SetIsProductModal(true)} className=" btn-primary fixed  bottom-14 right-10 !w-12 !h-12 text-4xl !p-0" >+</button>
     </div>

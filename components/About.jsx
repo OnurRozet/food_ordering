@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import Title from './ui/Title'
+import Link from 'next/link'
 
 function About() {
   return (
@@ -19,7 +20,9 @@ function About() {
             believable. If you are going to use a passage of Lorem Ipsum, you
             need to be sure there isn`t anything embarrassing hidden in the
             middle of text. All</p>
-            <button className=' btn-primary'>Read More</button>
+            <Link href="/about">
+            <button className=' btn-primary' >Read More</button>
+            </Link>
             </div>
        </div>
     </div>
