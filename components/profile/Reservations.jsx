@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Title from "../ui/Title";
 import axios from "axios";
 import { toast } from "react-toastify";
-import UpdateReservation from "../reservation/updateReservation";
+import UpdateReservation from "../reservation/UpdateReservation";
+
 
 export default function Reservations({user}) {
   const [reservations, setReservations] = useState([]);
@@ -23,7 +24,7 @@ export default function Reservations({user}) {
   };
   useEffect(() => {
     getReservationData();
-  }, [reservation,reservations]);
+  }, [reservation]);
 
   const deleteReservation = async(id) => {
 

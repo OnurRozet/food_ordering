@@ -7,7 +7,6 @@ import Footer from "@/components/admin/Footer";
 import { useRouter } from "next/router";
 import axios from "axios";
 import AddProduct from "@/components/admin/AddProduct";
-import Reservations from "@/components/profile/Reservations";
 import Reservation from "@/components/admin/Reservation";
 
 
